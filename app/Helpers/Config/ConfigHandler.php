@@ -104,8 +104,12 @@ class ConfigHandler
     public function saveCache($cacheDir)
     {
         $cacheFile = $cacheDir . '/config-cache.php'; // set the path to the cache file
-        file_put_contents($cacheFile, "<?php\n\nreturn " .
-            var_export($this->cache, true) . ";", FILE_APPEND); // write the cache to the cache file
+        file_put_contents(
+            $cacheFile,
+            "<?php\n\nreturn " .
+            var_export($this->cache, true) . ";",
+            FILE_APPEND
+        ); // write the cache to the cache file
     }
 
     // Load the cache from a PHP file
