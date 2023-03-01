@@ -81,13 +81,17 @@ class ConfigHandler
     // Resolve options based on the configuration options
     public function resolveOptions($configName, array $options)
     {
-        $config = $this->get($configName, 'options'); // get the options configuration for the specified configuration name
+        // get the options configuration for the specified configuration name
+        $config = $this->get($configName, 'options');
 
         if (!is_array($config)) { // check if the options configuration is not an array
-            throw new \InvalidArgumentException(sprintf('Configuration options for "%s" not found', $configName)); // throw an exception if the options configuration is not found
+            throw new \InvalidArgumentException(
+                sprintf('Configuration options for "%s" not found', $configName)
+            ); // throw an exception if the options configuration is not found
         }
 
-        $resolver = new OptionsResolver($config); // create a new instance of OptionsResolver using the options configuration
+        // create a new instance of OptionsResolver using the options configuration
+        $resolver = new OptionsResolver($config);
 
         foreach ($options as $name => $value) { // loop through the options array
             $resolver->addOption($name, $value); // add each option to the resolver
@@ -100,7 +104,8 @@ class ConfigHandler
     public function saveCache($cacheDir)
     {
         $cacheFile = $cacheDir . '/config-cache.php'; // set the path to the cache file
-        file_put_contents($cacheFile, "<?php\n\nreturn " . var_export($this->cache, true) . ";", FILE_APPEND); // write the cache to the cache file
+        file_put_contents($cacheFile, "<?php\n\nreturn " .
+            var_export($this->cache, true) . ";", FILE_APPEND); // write the cache to the cache file
     }
 
     // Load the cache from a PHP file
@@ -112,7 +117,7 @@ class ConfigHandler
             $this->cache = array(); // set the cache to an empty array
             $this->saveCache($cacheDir); // save the empty cache to the cache file
         } else {
-            $cache = require $cacheFile; // load the cache from the cache file
+            $cache = require_once $cacheFile; // load the cache from the cache file
 
             if (is_array($cache)) { // check if the cache is an array
                 return $cache; // return the cache
